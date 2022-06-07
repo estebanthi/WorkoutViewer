@@ -13,3 +13,9 @@ class Exercice(ABC):
 
     def __repr__(self):
         return f"{self.name} : {self.value}"
+
+    def __hash__(self):
+        total = 0
+        for letter in self.name:
+            total += ord(letter)
+        return total

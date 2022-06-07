@@ -324,6 +324,14 @@
        <attribute name="title">
         <string>Graphiques</string>
        </attribute>
+       <layout class="QVBoxLayout" name="layout">
+        <item>
+         <widget class="QComboBox" name="exoSelect"/>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="graphsLayout"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

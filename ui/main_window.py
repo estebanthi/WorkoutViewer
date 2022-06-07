@@ -152,6 +152,14 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
+        self.layout = QtWidgets.QVBoxLayout(self.tab_2)
+        self.layout.setObjectName("layout")
+        self.exoSelect = QtWidgets.QComboBox(self.tab_2)
+        self.exoSelect.setObjectName("exoSelect")
+        self.layout.addWidget(self.exoSelect)
+        self.graphsLayout = QtWidgets.QVBoxLayout()
+        self.graphsLayout.setObjectName("graphsLayout")
+        self.layout.addLayout(self.graphsLayout)
         self.tabWidget.addTab(self.tab_2, "")
         self.verticalLayout.addWidget(self.tabWidget)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -164,6 +172,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -187,4 +196,4 @@ class Ui_MainWindow(object):
         self.label_6.setText(_translate("MainWindow", "Samedi"))
         self.label_5.setText(_translate("MainWindow", "Dimanche"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Accueil"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Graphiques"))

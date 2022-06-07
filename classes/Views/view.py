@@ -3,6 +3,7 @@ import shutil
 import datetime as dt
 
 
+from classes.ui.mplwidget import MplWidget
 from ui.main_window import Ui_MainWindow
 
 
@@ -21,6 +22,7 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
         self.importCSVButton.clicked.connect(self.getFile)
         self.validateButton.clicked.connect(self.filter)
         self.resetButton.clicked.connect(self.reset_filter)
+        self.exoSelect.currentIndexChanged.connect(self.updateSelect)
 
     def getFile(self):
         filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Choisissez un fichier')[0]
@@ -53,6 +55,9 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
         self.samedi.setValue(self.controller.get_sessions_for_day(5))
         self.dimanche.setValue(self.controller.get_sessions_for_day(6))
 
+        exercices = self.controller.get_exercices()
+        self.exoSelect.addItems([exercice.name for exercice in exercices])
+
     def postInit(self):
         if self.controller.model.sessions:
             self.updateData()
@@ -62,3 +67,22 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def reset_filter(self):
         self.controller.reset_filter()
+
+    def updateSelect(self):
+        for i in reversed(range(self.graphsLayout.count())):
+            self.graphsLayout.itemAt(i).widget().setParent(None)
+
+        mplWidget = MplWidget()
+        exercices = self.controller.get_exercice(self.exoSelect.currentText())
+
+        y = [exercice.value for exercice in exercices]
+
+        if isinstance(y[0], tuple):
+
+            y = [exercice[0]*exercice[1] for exercice in y]
+        x = [exercice.date for exercice in exercices]
+
+        mplWidget.plot(x, y)
+        mplWidget.format(self.exoSelect.currentText(), 4)
+        mplWidget.set_ylabel("Charge totale (charge x répétitions)")
+        self.graphsLayout.addWidget(mplWidget)

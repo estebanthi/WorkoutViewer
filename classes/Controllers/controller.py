@@ -1,5 +1,6 @@
 from classes.ui.qerror_popup import QErrorPopup
 from classes.ui.qinfo_popup import QInfoPopup
+from classes.collections.unique_list import UniqueList
 
 
 class Controller:
@@ -29,3 +30,14 @@ class Controller:
 
     def reset_filter(self):
         self.model.load_data()
+
+    def get_exercices(self):
+        exercices = [session.items for session in self.model.sessions]
+        flat_exercices = [item for sublist in exercices for item in sublist]
+        unique_exercices = UniqueList(flat_exercices)
+        return unique_exercices
+
+    def get_exercice(self, name):
+        exercices = [session.items for session in self.model.sessions]
+        flat_exercices = [item for sublist in exercices for item in sublist]
+        return [exercice for exercice in flat_exercices if exercice.name == name]
