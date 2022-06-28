@@ -41,3 +41,6 @@ class Controller:
         exercices = [session.items for session in self.model.sessions]
         flat_exercices = [item for sublist in exercices for item in sublist]
         return [exercice for exercice in flat_exercices if exercice.name == name]
+
+    def get_sessions(self):
+        return self.model.sessions

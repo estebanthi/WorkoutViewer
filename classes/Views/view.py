@@ -3,6 +3,7 @@ import shutil
 import datetime as dt
 
 
+from classes.pyqt5_utils import PyQt5Utils
 from classes.ui.mplwidget import MplWidget
 from ui.main_window import Ui_MainWindow
 
@@ -31,6 +32,7 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
             self.controller.load_data()
 
     def updateData(self):
+        PyQt5Utils.clearLayout(self.allSessionsLayout)
         self.validateButton.setDisabled(False)
         self.resetButton.setDisabled(False)
 
@@ -58,6 +60,9 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
         exercices = self.controller.get_exercices()
         self.exoSelect.addItems([exercice.name for exercice in exercices])
 
+        allSessionsPlot = self.getAllSessionsPlot()
+        self.allSessionsLayout.addWidget(allSessionsPlot)
+
     def postInit(self):
         if self.controller.model.sessions:
             self.updateData()
@@ -69,6 +74,7 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
         self.controller.reset_filter()
 
     def updateSelect(self):
+        PyQt5Utils.clearLayout(self.graphsLayout)
         for i in reversed(range(self.graphsLayout.count())):
             self.graphsLayout.itemAt(i).widget().setParent(None)
 
@@ -86,3 +92,17 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
         mplWidget.format(self.exoSelect.currentText(), 4)
         mplWidget.set_ylabel("Charge totale (charge x répétitions)")
         self.graphsLayout.addWidget(mplWidget)
+
+    def getAllSessionsPlot(self):
+        allSessionPlot = MplWidget()
+        allSessionPlot.setTitle('Total séances')
+
+        sessions = self.controller.get_sessions()
+
+        y = [i+1 for i in range(1, len(sessions)+1)]
+        x = [session.date for session in sessions]
+
+        allSessionPlot.plot(x, y)
+        allSessionPlot.format('Total séances', 3)
+        allSessionPlot.setMinimumSize(500, 300)
+        return allSessionPlot
