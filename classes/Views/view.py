@@ -6,6 +6,7 @@ import datetime as dt
 from classes.pyqt5_utils import PyQt5Utils
 from classes.ui.mplwidget import MplWidget
 from ui.main_window import Ui_MainWindow
+from classes.daterange import Daterange
 
 
 class View(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -99,8 +100,19 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
 
         sessions = self.controller.get_sessions()
 
-        y = [i+1 for i in range(1, len(sessions)+1)]
-        x = [session.date for session in sessions]
+        start = sessions[0].date
+        end = sessions[-1].date
+
+        dates = Daterange(start, resolution=60*60*24).to_list()
+
+        x = dates
+        y = []
+        total = 0
+        for date in dates:
+            for session in sessions:
+                if session.date == date:
+                    total += 1
+            y.append(total)
 
         allSessionPlot.plot(x, y)
         allSessionPlot.format('Total séances', 3)
