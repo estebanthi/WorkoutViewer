@@ -126,6 +126,30 @@
                 </widget>
                </item>
                <item>
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>Nombre de jours total</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="totalDaysSpin">
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_13">
+                 <property name="text">
+                  <string>Séances par semaine (moyenne)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="averageWorkoutsPerWeek"/>
+               </item>
+               <item>
                 <spacer name="horizontalSpacer">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
@@ -338,7 +362,7 @@
      <x>0</x>
      <y>0</y>
      <width>1062</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

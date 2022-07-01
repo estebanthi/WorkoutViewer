@@ -48,7 +48,8 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
         self.endEdit.setDate(sessions[-1].date)
         self.lastDateInput.setDate(sessions[-1].date)
 
-        self.totalSessionsInput.setValue(len(self.controller.model.sessions))
+        workoutsNb = len(self.controller.model.sessions)
+        self.totalSessionsInput.setValue(workoutsNb)
 
         self.lundi.setValue(self.controller.get_sessions_for_day(0))
         self.mardi.setValue(self.controller.get_sessions_for_day(1))
@@ -63,6 +64,10 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
 
         allSessionsPlot = self.getAllSessionsPlot()
         self.allSessionsLayout.addWidget(allSessionsPlot)
+
+        nbDays = len(Daterange(sessions[0].date, sessions[-1].date, resolution=60*60*24).to_list())
+        self.totalDaysSpin.setValue(nbDays)
+        self.averageWorkoutsPerWeek.setValue(workoutsNb/(nbDays/7))
 
     def postInit(self):
         if self.controller.model.sessions:
@@ -103,7 +108,7 @@ class View(QtWidgets.QMainWindow, Ui_MainWindow):
         start = sessions[0].date
         end = sessions[-1].date
 
-        dates = Daterange(start, resolution=60*60*24).to_list()
+        dates = Daterange(start, end, resolution=60*60*24).to_list()
 
         x = dates
         y = []
