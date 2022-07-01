@@ -48,7 +48,7 @@ class Model(QtCore.QObject):
             date = dt.datetime.strptime(row[1]['DATE'], '%d-%m-%Y')
             name = row[1]['EXERCISE']
             reps = int(row[1]['NB_REPS'])
-            load = float(row[1]['WEIGHT']) if row[1]['WEIGHT'] != 'PDC' else self.config['weight']
+            load = float(row[1]['WEIGHT']) if row[1]['WEIGHT'] != 'BW' else self.config['weight']
             duration = row[1]['DURATION']
 
             if reps == 0:

@@ -1,0 +1,5 @@
+matplotlib==3.5.2
+numpy==1.22.4
+pandas==1.4.3
+PyQt5==5.15.7
+PyYAML==6.0
